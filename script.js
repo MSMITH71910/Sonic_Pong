@@ -3,7 +3,10 @@
 const menuContainer = document.getElementById('menuContainer');
 const highScoresContainer = document.getElementById('highScoresContainer');
 const gameOverContainer = document.getElementById('gameOverContainer');
+const pauseContainer = document.getElementById('pauseContainer');
 const playerNameInput = document.getElementById('playerName');
+const player2NameInput = document.getElementById('player2Name');
+const player2NameContainer = document.getElementById('player2NameContainer');
 const singlePlayerBtn = document.getElementById('singlePlayerBtn');
 const twoPlayerBtn = document.getElementById('twoPlayerBtn');
 const easyBtn = document.getElementById('easyBtn');
@@ -14,6 +17,8 @@ const highScoreBtn = document.getElementById('highScoreBtn');
 const backToMenuBtn = document.getElementById('backToMenuBtn');
 const playAgainBtn = document.getElementById('playAgainBtn');
 const returnToMenuBtn = document.getElementById('returnToMenuBtn');
+const resumeBtn = document.getElementById('resumeBtn');
+const quitGameBtn = document.getElementById('quitGameBtn');
 const winnerText = document.getElementById('winnerText');
 const finalScore = document.getElementById('finalScore');
 const scoresTable = document.getElementById('scoresTable');
@@ -22,6 +27,9 @@ const scoresTable = document.getElementById('scoresTable');
 const paddleHitSound = document.getElementById('paddleHitSound');
 const wallHitSound = document.getElementById('wallHitSound');
 const scoreSound = document.getElementById('scoreSound');
+const gameStartSound = document.getElementById('gameStartSound');
+const gameOverSound = document.getElementById('gameOverSound');
+const pauseSound = document.getElementById('pauseSound');
 
 // Canvas Setup
 const { body } = document;
@@ -36,9 +44,10 @@ const isMobile = window.matchMedia('(max-width: 600px)');
 // Game State
 let isGameOver = true;
 let isNewGame = true;
+let isPaused = false;
 let gameMode = 'computer'; // 'computer' or 'twoPlayer'
 let difficulty = 'easy'; // 'easy', 'medium', or 'hard'
-let playerName = 'Player';
+let playerName = 'Player 1';
 let player2Name = 'Player 2';
 let highScores = JSON.parse(localStorage.getItem('pongHighScores')) || [];
 
@@ -97,11 +106,13 @@ function toggleButton(button, buttons) {
 singlePlayerBtn.addEventListener('click', () => {
   toggleButton(singlePlayerBtn, [singlePlayerBtn, twoPlayerBtn]);
   gameMode = 'computer';
+  player2NameContainer.style.display = 'none';
 });
 
 twoPlayerBtn.addEventListener('click', () => {
   toggleButton(twoPlayerBtn, [singlePlayerBtn, twoPlayerBtn]);
   gameMode = 'twoPlayer';
+  player2NameContainer.style.display = 'block';
 });
 
 easyBtn.addEventListener('click', () => {
@@ -123,13 +134,45 @@ highScoreBtn.addEventListener('click', showHighScores);
 backToMenuBtn.addEventListener('click', showMenu);
 playAgainBtn.addEventListener('click', startGame);
 returnToMenuBtn.addEventListener('click', showMenu);
+resumeBtn.addEventListener('click', resumeGame);
+quitGameBtn.addEventListener('click', quitGame);
+
+// Pause/Resume Game
+function pauseGame() {
+  if (!isGameOver && !isPaused) {
+    isPaused = true;
+    pauseContainer.style.display = 'flex';
+    pauseSound.currentTime = 0;
+    pauseSound.play();
+  }
+}
+
+function resumeGame() {
+  if (isPaused) {
+    isPaused = false;
+    pauseContainer.style.display = 'none';
+    requestAnimationFrame(animate);
+    pauseSound.currentTime = 0;
+    pauseSound.play();
+  }
+}
+
+function quitGame() {
+  isPaused = false;
+  isGameOver = true;
+  pauseContainer.style.display = 'none';
+  showMenu();
+}
 
 // Start Game from Menu
 startGameBtn.addEventListener('click', () => {
-  playerName = playerNameInput.value || 'Player';
+  playerName = playerNameInput.value || 'Player 1';
+  player2Name = gameMode === 'twoPlayer' ? (player2NameInput.value || 'Player 2') : 'Computer';
   menuContainer.style.display = 'none';
   canvas.style.display = 'block';
   startGame();
+  gameStartSound.currentTime = 0;
+  gameStartSound.play();
 });
 
 // Show High Scores
@@ -268,16 +311,46 @@ function computerAI() {
   }
 }
 
-// Player 2 Controls (for 2-player mode)
-function handlePlayer2Movement(e) {
+// Keyboard Controls
+function handleKeyboardControls(e) {
+  const key = e.key;
+  const paddleSpeed = 20;
+  
+  // Pause game with Escape key
+  if (key === 'Escape') {
+    if (isPaused) {
+      resumeGame();
+    } else {
+      pauseGame();
+    }
+    return;
+  }
+  
+  if (isPaused) return;
+  
+  // Player 1 Controls (A and D keys)
+  if (key === 'a' || key === 'A') {
+    if (paddleBottomX > 0) {
+      paddleBottomX -= paddleSpeed;
+      playerMoved = true;
+    }
+  } else if (key === 'd' || key === 'D') {
+    if (paddleBottomX < width - paddleWidth) {
+      paddleBottomX += paddleSpeed;
+      playerMoved = true;
+    }
+  }
+  
+  // Player 2 Controls (Arrow keys) - only in two player mode
   if (gameMode === 'twoPlayer') {
-    const key = e.key;
-    const paddleSpeed = 20;
-    
-    if (key === 'ArrowLeft' && paddleTopX > 0) {
-      paddleTopX -= paddleSpeed;
-    } else if (key === 'ArrowRight' && paddleTopX < width - paddleWidth) {
-      paddleTopX += paddleSpeed;
+    if (key === 'ArrowLeft') {
+      if (paddleTopX > 0) {
+        paddleTopX -= paddleSpeed;
+      }
+    } else if (key === 'ArrowRight') {
+      if (paddleTopX < width - paddleWidth) {
+        paddleTopX += paddleSpeed;
+      }
     }
   }
 }
@@ -290,13 +363,17 @@ function gameOver() {
     // Determine winner
     const winner = playerScore === winningScore ? playerName : (gameMode === 'computer' ? 'Computer' : player2Name);
     
-    // Update high scores for human players
-    if (winner === playerName) {
-      const existingScore = highScores.find(score => score.name === playerName);
+    // Play game over sound
+    gameOverSound.currentTime = 0;
+    gameOverSound.play();
+    
+    // Update high scores for all human players
+    if (winner !== 'Computer') {
+      const existingScore = highScores.find(score => score.name === winner);
       if (existingScore) {
         existingScore.score += 1;
       } else {
-        highScores.push({ name: playerName, score: 1 });
+        highScores.push({ name: winner, score: 1 });
       }
       localStorage.setItem('pongHighScores', JSON.stringify(highScores));
     }
@@ -363,7 +440,7 @@ function createCanvas() {
 
 // Called Every Frame
 function animate() {
-  if (!isGameOver) {
+  if (!isGameOver && !isPaused) {
     requestAnimationFrame(animate);
     renderCanvas();
     ballMove();
@@ -418,8 +495,14 @@ function startGame() {
       canvas.style.cursor = 'none';
     });
     
-    // Add keyboard controls for 2-player mode
-    document.addEventListener('keydown', handlePlayer2Movement);
+    // Add keyboard controls for both players
+    document.addEventListener('keydown', handleKeyboardControls);
+    
+    // Add pause on click (right-click or long press on mobile)
+    canvas.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      pauseGame();
+    });
   }
 }
 

@@ -15,8 +15,13 @@
     <!-- Menu Container (Hidden when game is active) -->
     <div class="menu-container" id="menuContainer">
       <div class="form-group">
-        <label for="playerName">Player Name:</label>
-        <input type="text" id="playerName" placeholder="Enter your name">
+        <label for="playerName">Player 1 Name:</label>
+        <input type="text" id="playerName" placeholder="Enter player 1 name">
+      </div>
+      
+      <div id="player2NameContainer" class="form-group" style="display: none;">
+        <label for="player2Name">Player 2 Name:</label>
+        <input type="text" id="player2Name" placeholder="Enter player 2 name">
       </div>
       
       <div class="form-group">
@@ -54,12 +59,22 @@
       <button id="playAgainBtn">Play Again</button>
       <button id="returnToMenuBtn">Return to Menu</button>
     </div>
+    
+    <!-- Pause Menu -->
+    <div class="pause-container" id="pauseContainer">
+      <h2>Game Paused</h2>
+      <button id="resumeBtn">Resume Game</button>
+      <button id="quitGameBtn">Quit Game</button>
+    </div>
   </div>
   
   <!-- Sound Effects (hidden) -->
   <audio id="paddleHitSound" src="https://assets.codepen.io/21542/howler-push.mp3"></audio>
   <audio id="wallHitSound" src="https://assets.codepen.io/21542/howler-sfx-levelup.mp3"></audio>
   <audio id="scoreSound" src="https://assets.codepen.io/21542/howler-sfx-exp.mp3"></audio>
+  <audio id="gameStartSound" src="https://assets.codepen.io/21542/howler-sfx-coin.mp3"></audio>
+  <audio id="gameOverSound" src="https://assets.codepen.io/21542/howler-sfx-death.mp3"></audio>
+  <audio id="pauseSound" src="https://assets.codepen.io/21542/howler-sfx-powerup.mp3"></audio>
 
   <script src="script.js"></script>
 </body>

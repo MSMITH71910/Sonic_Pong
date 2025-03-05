@@ -25,7 +25,7 @@ h1 {
 }
 
 /* Menu Styles */
-.menu-container, .high-scores-container, .game-over-container {
+.menu-container, .high-scores-container, .game-over-container, .pause-container {
   background-color: rgb(56, 56, 56);
   border-radius: 10px;
   padding: 2rem;
@@ -37,8 +37,16 @@ h1 {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.high-scores-container, .game-over-container {
+.high-scores-container, .game-over-container, .pause-container {
   display: none;
+}
+
+.pause-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
 }
 
 .form-group {
