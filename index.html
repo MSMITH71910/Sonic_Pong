@@ -1,16 +1,66 @@
-<!DOCTYPE html>
-<html>
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>replit</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong Game</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-  Hello world
+  <div class="container">
+    <!-- Game Title -->
+    <h1>PONG</h1>
+    
+    <!-- Menu Container (Hidden when game is active) -->
+    <div class="menu-container" id="menuContainer">
+      <div class="form-group">
+        <label for="playerName">Player Name:</label>
+        <input type="text" id="playerName" placeholder="Enter your name">
+      </div>
+      
+      <div class="form-group">
+        <label>Game Mode:</label>
+        <div class="option-buttons">
+          <button id="singlePlayerBtn" class="selected">vs Computer</button>
+          <button id="twoPlayerBtn">2 Players</button>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Difficulty:</label>
+        <div class="option-buttons">
+          <button id="easyBtn" class="selected">Easy</button>
+          <button id="mediumBtn">Medium</button>
+          <button id="hardBtn">Hard</button>
+        </div>
+      </div>
+      
+      <button id="startGameBtn" class="start-btn">Start Game</button>
+      <button id="highScoreBtn">High Scores</button>
+    </div>
+    
+    <!-- High Scores Container -->
+    <div class="high-scores-container" id="highScoresContainer">
+      <h2>High Scores</h2>
+      <div id="scoresTable"></div>
+      <button id="backToMenuBtn" class="back-btn">Back to Menu</button>
+    </div>
+    
+    <!-- Game Over Screen -->
+    <div class="game-over-container" id="gameOverContainer">
+      <h2 id="winnerText">Player Wins!</h2>
+      <div id="finalScore">Score: 0 - 0</div>
+      <button id="playAgainBtn">Play Again</button>
+      <button id="returnToMenuBtn">Return to Menu</button>
+    </div>
+  </div>
+  
+  <!-- Sound Effects (hidden) -->
+  <audio id="paddleHitSound" src="https://assets.codepen.io/21542/howler-push.mp3"></audio>
+  <audio id="wallHitSound" src="https://assets.codepen.io/21542/howler-sfx-levelup.mp3"></audio>
+  <audio id="scoreSound" src="https://assets.codepen.io/21542/howler-sfx-exp.mp3"></audio>
+
   <script src="script.js"></script>
 </body>
-
 </html>

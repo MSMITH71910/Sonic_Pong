@@ -1,4 +1,165 @@
-html {
-  height: 100%;
+
+body {
+  margin: 0;
+  background-color: rgb(39, 39, 39);
+  display: flex;
+  justify-content: center;
+  font-family: "Courier New", Courier, monospace;
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  max-width: 800px;
+}
+
+h1 {
+  font-size: 4rem;
+  letter-spacing: 0.5rem;
+  margin-bottom: 2rem;
+  color: #0df;
+  text-shadow: 0 0 10px rgba(0, 221, 255, 0.7);
+}
+
+/* Menu Styles */
+.menu-container, .high-scores-container, .game-over-container {
+  background-color: rgb(56, 56, 56);
+  border-radius: 10px;
+  padding: 2rem;
+  width: 80%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.high-scores-container, .game-over-container {
+  display: none;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.7rem;
+  border: none;
+  background-color: rgb(80, 80, 80);
+  color: white;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.option-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+button {
+  cursor: pointer;
+  background-color: rgb(80, 80, 80);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-color: rgb(100, 100, 100);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button.selected {
+  background-color: #0df;
+  color: black;
+  font-weight: bold;
+}
+
+.start-btn {
+  background-color: #0df;
+  color: black;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.back-btn {
+  margin-top: 1rem;
+}
+
+/* Game Canvas */
+canvas {
+  margin-top: 25px;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+/* High Scores Table */
+#scoresTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+#scoresTable div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#scoresTable div:last-child {
+  border-bottom: none;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .menu-container, .high-scores-container, .game-over-container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+  
+  canvas {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 1800px) {
+  h1 {
+    font-size: 5rem;
+  }
+  
+  canvas {
+    margin-top: 50px;
+  }
 }
