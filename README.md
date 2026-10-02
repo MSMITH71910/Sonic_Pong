@@ -79,7 +79,7 @@ No frameworks. No libraries. Pure web technology.
 **Smith Development Labs** builds custom web applications, games, and business websites for clients in the Philadelphia metro area and beyond. From simple local business landing pages to full interactive web experiences — we bring ideas to life on the web.
 
 > Interested in a custom website or web app for your business?
-> **Contact Smith Development Labs** — [github.com/MSMITH71910](https://github.com/MSMITH71910)
+> **Contact Smith Development Labs** — [Smith Development Labs, LLC](https://www.smithdevlabs.com)
 
 ---
 
