@@ -6,9 +6,15 @@ A modern, feature-rich recreation of the classic Pong arcade game — built from
 
 ---
 
-## Play the Game
+## 🎮 Play the Game Live
 
-Clone the repo and open `index.html` in any browser — no installs, no dependencies required.
+**[▶ Click here to play Sonic Pong](https://msmith71910.github.io/Sonic_Pong/)**
+
+---
+
+## Screenshot
+
+![Sonic Pong Screenshot](./screenshot.png)
 
 ---
 
