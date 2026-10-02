@@ -2,7 +2,7 @@
 
 A modern, feature-rich recreation of the classic Pong arcade game — built from scratch with vanilla HTML, CSS, and JavaScript.
 
-**Developed by [Smith Development Labs](https://github.com/MSMITH71910)**
+**Developed by [Smith Development Labs](https://www.smithdevlabs.com)**
 
 ---
 
